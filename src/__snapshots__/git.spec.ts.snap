@@ -1,0 +1,21 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should call useGit expected the .git folder (workspace foo): list workspace 1`] = `
+[
+  ".git",
+]
+`;
+
+exports[`should call useGit expected the .git folder (workspace foo2): list workspace 1`] = `
+"[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[aa]
+	bb = cc
+	dd = ee\n
+"
+`;
