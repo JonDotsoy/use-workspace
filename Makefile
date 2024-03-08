@@ -1,6 +1,4 @@
-ENTRIES=src/use-workspace.ts src/git.ts
-
-all: build
+all: build@esm
 
 build@esm:
 	bunx tsc --project tsconfig.esm.json
