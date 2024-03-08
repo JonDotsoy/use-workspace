@@ -1,6 +1,7 @@
 !.editorconfig
 src/**/*.d.ts
 src/**/*.js
+!Makefile
 
 # Based on https://raw.githubusercontent.com/github/gitignore/main/Node.gitignore
 
