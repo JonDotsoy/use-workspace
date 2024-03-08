@@ -7,3 +7,6 @@ build@esm:
 
 fmt:
 	bunx prettier -w .
+
+pack:
+	npm pack
