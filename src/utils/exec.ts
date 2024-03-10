@@ -1,29 +1,13 @@
 import { URL } from "url";
 import { spawn } from "child_process";
+import { MultiplyStream } from "streamable-tools/multiply-stream";
+import { SplitStream } from "streamable-tools/split-stream";
+import { readableStreamWithController } from "streamable-tools/readable-stream-with-controller";
 
 type ExecOptions = {
   cmd: string[];
   cwd?: URL;
 };
-
-class ReadableControl {
-  private constructor(
-    readonly readable: ReadableStream<Uint8Array>,
-    readonly controller: ReadableStreamDefaultController<Uint8Array>,
-  ) {}
-
-  static async withController() {
-    const controllerResolver =
-      Promise.withResolvers<ReadableStreamDefaultController<Uint8Array>>();
-    const readable = await new ReadableStream<Uint8Array>({
-      start: (controller) => {
-        controllerResolver.resolve(controller);
-      },
-    });
-    const controller = await controllerResolver.promise;
-    return new ReadableControl(readable, controller);
-  }
-}
 
 export class ChildProcess {
   constructor(
@@ -39,14 +23,25 @@ export class ChildProcess {
   }
 }
 
+class LoggerOutput {
+  // readable = new ReadableStream<Uint8Array>();
+  writable = new WritableStream<Uint8Array>({
+    write: (chunk) => {
+      const txt = new TextDecoder().decode(chunk.filter((c) => !!c)).trim();
+      if (!txt.length) return;
+      process.stdout.write(`> ${txt}\n`);
+    },
+  });
+}
+
 export const exec = async (options: ExecOptions) => {
   const [command, ...args] = options.cmd;
   const cwd = options?.cwd;
   const exitCodePromise = Promise.withResolvers<number | null>();
   const { readable: stdout, controller: stdoutController } =
-    await ReadableControl.withController();
+    readableStreamWithController<Uint8Array>();
   const { readable: stderr, controller: stderrController } =
-    await ReadableControl.withController();
+    readableStreamWithController<Uint8Array>();
 
   const childProcess = spawn(command, args, {
     cwd,
@@ -72,5 +67,15 @@ export const exec = async (options: ExecOptions) => {
 
   const exitCode = await exitCodePromise.promise;
 
-  return new ChildProcess(exitCode, stdout, stderr);
+  const loggerStdout = new SplitStream();
+  const loggerStderr = new SplitStream();
+
+  loggerStdout.readable.pipeTo(new LoggerOutput().writable);
+  loggerStderr.readable.pipeTo(new LoggerOutput().writable);
+
+  return new ChildProcess(
+    exitCode,
+    stdout.pipeThrough(new MultiplyStream(loggerStdout)),
+    stderr.pipeThrough(new MultiplyStream(loggerStderr)),
+  );
 };
