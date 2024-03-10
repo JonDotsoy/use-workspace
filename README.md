@@ -24,3 +24,15 @@ const git = await useGit(workspace);
 await git.config.set("taz.bar", "Bar");
 await git.config.get("taz.bar"); // => "Bar"
 ```
+
+## Git integration
+
+```ts
+import { useGit } from "use-workspace/git";
+
+const git = await useGit(workspace);
+
+const editor = await git.config.get("editor");
+
+expect(editor).toEqual("vim");
+```
