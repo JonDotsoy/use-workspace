@@ -1,0 +1,6 @@
+Makefile
+.*
+tsconfig.*
+*.lockb
+*.tgz
+src/
