@@ -30,11 +30,28 @@ async function getNodeModulesFolder() {
   return null;
 }
 
+function getWorkspaceLocationByEnv() {
+  const WORKSPACE_LOCATION = process.env.WORKSPACE_LOCATION ?? null;
+  if (!WORKSPACE_LOCATION) return null;
+  const cwd = `file://${process.cwd()}/`;
+  if (URL.canParse(WORKSPACE_LOCATION, cwd)) return null;
+  return new URL(WORKSPACE_LOCATION, cwd);
+}
+
+async function getBaseWorkspaceLocation() {
+  const byEnv = getWorkspaceLocationByEnv();
+  if (byEnv) return byEnv;
+  const nodeModules = await getNodeModulesFolder();
+  if (!nodeModules)
+    throw new Error(
+      `Missing node_modules folder. Please describe the environment WORKSPACE_LOCATION.`,
+    );
+  return new URL(".workspaces/", nodeModules);
+}
+
 const toWorkspaceLocation = async (relativeName: string | URL) => {
   if (relativeName instanceof URL) return relativeName;
-  const nodeModules = await getNodeModulesFolder();
-  if (!nodeModules) throw new Error(`Missing node_modules folder`);
-  return new URL(`${relativeName}/`, new URL(".workspaces/", nodeModules));
+  return new URL(`${relativeName}/`, await getBaseWorkspaceLocation());
 };
 
 type WorkspaceOptions = {
