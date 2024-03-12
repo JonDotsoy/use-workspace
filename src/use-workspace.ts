@@ -34,7 +34,7 @@ function getWorkspaceLocationByEnv() {
   const WORKSPACE_LOCATION = process.env.WORKSPACE_LOCATION ?? null;
   if (!WORKSPACE_LOCATION) return null;
   const cwd = `file://${process.cwd()}/`;
-  if (URL.canParse(WORKSPACE_LOCATION, cwd)) return null;
+  if (!URL.canParse(WORKSPACE_LOCATION, cwd)) return null;
   return new URL(WORKSPACE_LOCATION, cwd);
 }
 
