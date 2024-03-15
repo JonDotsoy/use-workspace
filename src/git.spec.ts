@@ -4,7 +4,7 @@ import { useGit } from "./git";
 import fs from "fs/promises";
 
 test("should call useGit expected the .git folder (workspace foo)", async () => {
-  const workspace = await useWorkspace("foo");
+  const workspace = await useWorkspace("foo", { cleanBefore: true });
   await useGit(workspace);
 
   expect(await fs.readdir(workspace.location)).toMatchSnapshot(

@@ -57,6 +57,8 @@ const toWorkspaceLocation = async (relativeName: string | URL) => {
 type WorkspaceOptions = {
   /** Clean all content of workspace if exists */
   cleanBefore?: boolean;
+  /** URL format */
+  template?: string;
 };
 
 export class Workspace {
@@ -72,12 +74,29 @@ export const useWorkspace = async (
   options?: WorkspaceOptions,
 ): Promise<Workspace> => {
   const cleanBefore = options?.cleanBefore ?? false;
+  const template = options?.template ? new URL(options?.template) : null;
 
   const workspaceLocation = await toWorkspaceLocation(relativeName);
 
   if (cleanBefore) await fs.rm(workspaceLocation, { recursive: true });
 
   await fs.mkdir(workspaceLocation, { recursive: true });
+
+  // Copy the template on the workspace
+  if (template) {
+    const templateFiles = await fs.readdir(template, {
+      recursive: true,
+      withFileTypes: true,
+    });
+    for (const direct of templateFiles) {
+      if (direct.isFile()) {
+        const source = new URL(direct.name, template);
+        const target = new URL(direct.name, workspaceLocation);
+        await fs.mkdir(new URL("./", source), { recursive: true });
+        await fs.copyFile(source, target);
+      }
+    }
+  }
 
   return new Workspace(workspaceLocation);
 };
