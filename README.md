@@ -50,3 +50,31 @@ await using server = useServer(workspace);
 
 server.toURL("foo.txt"); // 'https://localhost:3000/foo.txt'
 ```
+
+**Create server instance**
+
+```ts
+await using server = useServer(workspace);
+```
+
+**Get url of file**
+
+```ts
+server.toURL("foo.txt"); // 'https://localhost:3000/foo.txt'
+```
+
+**Custom fetcher**
+
+```ts
+await using server = useServer(workspace, {
+  fetchers: [(req: Request) => new Response("ok")],
+});
+```
+
+**Custom URL**
+
+```ts
+await using server = useServer(workspace, {
+  publicUrl: "https://my-url/with-subpath/",
+});
+```
