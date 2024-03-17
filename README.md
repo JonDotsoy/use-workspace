@@ -40,7 +40,7 @@ expect(editor).toEqual("vim");
 ### Server
 
 ```ts
-import {useServer} from "use-workspace/server";
+import { useServer } from "use-workspace/server";
 
 await using server = useServer(workspace);
 
