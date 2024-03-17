@@ -25,14 +25,24 @@ await git.config.set("taz.bar", "Bar");
 await git.config.get("taz.bar"); // => "Bar"
 ```
 
-## Git integration
+### Git integration
 
 ```ts
 import { useGit } from "use-workspace/git";
 
 const git = await useGit(workspace);
 
-const editor = await git.config.get("editor");
+const editor = await git.config.get("core.editor");
 
 expect(editor).toEqual("vim");
+```
+
+### Server
+
+```ts
+import {useServer} from "use-workspace/server";
+
+await using server = useServer(workspace);
+
+server.toURL("foo.txt"); // 'https://localhost:3000/foo.txt'
 ```
