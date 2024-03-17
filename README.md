@@ -1,6 +1,6 @@
 # use-workspace
 
-Set of tools to make a workspace.
+`use-workspace` is a set of tools designed to facilitate the creation, configuration, and maintenance of workspaces for development projects. It provides a simple API for managing directories, files, and configurations related to the development environment.
 
 **Sample:**
 
@@ -27,6 +27,8 @@ await git.config.get("taz.bar"); // => "Bar"
 
 ### Git integration
 
+Allows for easy initialization of Git repositories within the workspace and their configuration.
+
 ```ts
 import { useGit } from "use-workspace/git";
 
@@ -38,6 +40,8 @@ expect(editor).toEqual("vim");
 ```
 
 ### Server
+
+Includes the ability to launch a local server associated with the workspace for testing and development purposes.
 
 ```ts
 import { useServer } from "use-workspace/server";
