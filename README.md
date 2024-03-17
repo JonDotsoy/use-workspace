@@ -39,7 +39,7 @@ const editor = await git.config.get("core.editor");
 expect(editor).toEqual("vim");
 ```
 
-### Server
+### Server integration
 
 Includes the ability to launch a local server associated with the workspace for testing and development purposes.
 
