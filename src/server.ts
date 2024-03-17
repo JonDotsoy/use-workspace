@@ -6,7 +6,7 @@ import fs from "fs/promises";
 type Fetcher = (request: Request) => Promise<Response | null> | Response | null;
 
 type UseServerOptions = {
-  publicUrl?: string,
+  publicUrl?: string;
   port?: number;
   fetchers?: Fetcher[];
 };
@@ -84,12 +84,15 @@ class UseServer {
   }
 
   private workspaceFetcher: Fetcher = async (req) => {
-    const filePath = new URL(`.${new URL(req.url).pathname}`, this.workspace.location);
-    const exists = await fs.exists(filePath)
+    const filePath = new URL(
+      `.${new URL(req.url).pathname}`,
+      this.workspace.location,
+    );
+    const exists = await fs.exists(filePath);
     if (exists) {
-      const stat = await fs.stat(filePath)
+      const stat = await fs.stat(filePath);
       if (stat.isFile()) {
-        return new Response(new Uint8Array(await fs.readFile(filePath)))
+        return new Response(new Uint8Array(await fs.readFile(filePath)));
       }
     }
     return null;

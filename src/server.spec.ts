@@ -8,5 +8,5 @@ test.only("", async () => {
 
   await using server1 = await useServer(workspace);
 
-  expect(await (await fetch(`${server1.toURL("foo")}`)).text()).toEqual('biz');
+  expect(await (await fetch(`${server1.toURL("foo")}`)).text()).toEqual("biz");
 });
