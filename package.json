@@ -1,6 +1,6 @@
 {
   "name": "use-workspace",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "module": "index.ts",
   "type": "module",
   "license": "MIT",
@@ -14,6 +14,9 @@
     },
     "./git": {
       "default": "./dist/esm/git.js"
+    },
+    "./server": {
+      "default": "./dist/esm/server.js"
     }
   },
   "devDependencies": {
