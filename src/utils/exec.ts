@@ -7,6 +7,7 @@ import { readableStreamWithController } from "streamable-tools/readable-stream-w
 type ExecOptions = {
   cmd: string[];
   cwd?: URL;
+  silent?: boolean;
 };
 
 export class ChildProcess {
@@ -37,6 +38,7 @@ class LoggerOutput {
 export const exec = async (options: ExecOptions) => {
   const [command, ...args] = options.cmd;
   const cwd = options?.cwd;
+  const silent = options.silent ?? false;
   const exitCodePromise = Promise.withResolvers<number | null>();
   const { readable: stdout, controller: stdoutController } =
     readableStreamWithController<Uint8Array>();
@@ -70,8 +72,11 @@ export const exec = async (options: ExecOptions) => {
   const loggerStdout = new SplitStream();
   const loggerStderr = new SplitStream();
 
-  loggerStdout.readable.pipeTo(new LoggerOutput().writable);
-  loggerStderr.readable.pipeTo(new LoggerOutput().writable);
+  const loggerOutput = silent === false;
+  if (loggerOutput) {
+    loggerStdout.readable.pipeTo(new LoggerOutput().writable);
+    loggerStderr.readable.pipeTo(new LoggerOutput().writable);
+  }
 
   return new ChildProcess(
     exitCode,
