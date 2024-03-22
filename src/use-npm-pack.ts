@@ -1,14 +1,31 @@
 import { Workspace } from "./use-workspace.js";
 import { jsonQuery } from "./utils/json-query.js";
 import { digestFiles } from "./utils/digest-files.js";
+import { useCache } from "./utils/cache-workspace.js";
 
 type StringLike = string | { toString: () => string };
+type StringListLike = AsyncIterable<StringLike> | Iterable<StringLike>;
 
 const useMemory = async (
   workspace: Workspace,
-  likePath: StringLike = ".use-npm-pack.json",
+  likePath: StringLike = "use-npm-pack.json",
 ) => {
-  const configPath = new URL(likePath, workspace.location);
+  const workspaceDigest = await Array.from(
+    new Uint8Array(
+      await crypto.subtle.digest(
+        "SHA-256",
+        new TextEncoder().encode(`${workspace.location}`),
+      ),
+    ),
+    (e) => e.toString(16).padStart(2, "0"),
+  ).join("");
+  const cache = await useCache();
+  const configPath = new URL(
+    `${workspaceDigest}-${likePath}`,
+    cache.workspace.location,
+  );
+
+  console.log("🚀 ~ configPath:", configPath);
 
   return jsonQuery(configPath);
 };
@@ -17,7 +34,7 @@ type Options = {};
 
 export const useNpmPack = async (
   workspace: Workspace,
-  files: StringLike[],
+  files: StringListLike,
   _options?: Options,
 ) => {
   const memory = await useMemory(workspace);
