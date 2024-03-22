@@ -1,6 +1,6 @@
 import * as fs from "fs/promises";
 
-type StringListLike = AsyncIterable<StringLike> | Iterable<StringLike>
+type StringListLike = AsyncIterable<StringLike> | Iterable<StringLike>;
 type StringLike = string | { toString: () => string };
 
 const listFilesRecursive = async function* (
