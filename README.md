@@ -78,3 +78,18 @@ await using server = useServer(workspace, {
   publicUrl: "https://my-url/with-subpath/",
 });
 ```
+
+## NPM Pack Integration
+
+The `useNpmPack` API provided by the module `"use-workspace/use-npm-pack"` enables the packaging of workspaces for distribution and deployment. The first argument specifies a workspace for a package, and the second argument is an array describing the list of files to observe for changes since the last packaging.
+
+Internally, it executes the `npm pack` command to create a `.tgz` file, allowing it to be used in any other workspace seamlessly.
+
+**Example**
+
+```ts
+import {useNpmPack} from "use-workspace/use-npm-pack"
+
+const pack = await useNpmPack(workspace, ["package.json", "src/index.ts",...])
+pack // => 'file://.../package.tgz'
+```

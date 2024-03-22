@@ -19,7 +19,7 @@ test("should pack a workspace file", async () => {
   await useNpmPack(workspace, sources);
 });
 
-test.only("", async () => {
+test("", async () => {
   const workspace = await useSample2("sample_2");
   const pack = await useNpmPack(
     workspace,
