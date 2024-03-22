@@ -1,6 +1,6 @@
 {
   "name": "use-workspace",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "license": "MIT",
   "scripts": {
     "prepack": "make build",
