@@ -1,4 +1,4 @@
-import type { Workspace } from "./use-workspace";
+import type { Workspace } from "./use-workspace.js";
 
 export class Bun {
   constructor(readonly workspace: Workspace) {}

@@ -1,5 +1,5 @@
-import type { Workspace } from "./use-workspace";
-import fs from "fs/promises";
+import type { Workspace } from "./use-workspace.js";
+import * as fs from "fs/promises";
 
 type GitConfigOptions = {
   local?: boolean;

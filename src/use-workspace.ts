@@ -1,11 +1,11 @@
 import { URL } from "url";
-import fs from "fs/promises";
-import { exec } from "./utils/exec";
+import * as fs from "fs/promises";
+import { exec } from "./utils/exec.js";
 
 async function* eachNodeModulesFolders() {
   const maxIntents = 200;
   let index = 0;
-  let currentAlternative = new URL("./", import.meta.url);
+  let currentAlternative = new URL("./", `file://${__filename}`);
   let isEnd = false;
   while (true) {
     index = index + 1;
@@ -64,8 +64,12 @@ type WorkspaceOptions = {
 export class Workspace {
   constructor(readonly location: URL) {}
 
-  async exec(options: { cmd: string[] }) {
-    return await exec({ cmd: options.cmd, cwd: this.location });
+  async exec(options: { cmd: string[]; silent?: boolean }) {
+    return await exec({
+      cmd: options.cmd,
+      cwd: this.location,
+      silent: options.silent,
+    });
   }
 }
 

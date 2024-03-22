@@ -1,4 +1,4 @@
-import { useWorkspace } from "../use-workspace";
+import { useWorkspace } from "../use-workspace.js";
 
 export const useSample1 = (relativeName?: string) =>
   useWorkspace(relativeName, {

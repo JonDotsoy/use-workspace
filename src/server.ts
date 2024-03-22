@@ -1,7 +1,7 @@
 import { createServer, Server, IncomingMessage, ServerResponse } from "http";
-import net from "net";
-import type { Workspace } from "./use-workspace";
-import fs from "fs/promises";
+import * as net from "net";
+import type { Workspace } from "./use-workspace.js";
+import * as fs from "fs/promises";
 
 type Fetcher = (request: Request) => Promise<Response | null> | Response | null;
 

@@ -1,6 +1,6 @@
 import { test, expect } from "bun:test";
-import { useWorkspace } from "./use-workspace";
-import { useGit } from "./git";
+import { useWorkspace } from "./use-workspace.js";
+import { useGit } from "./git.js";
 import fs from "fs/promises";
 
 test("should call useGit expected the .git folder (workspace foo)", async () => {

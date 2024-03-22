@@ -1,4 +1,4 @@
-import { useWorkspace } from "../../use-workspace";
+import { useWorkspace } from "../../use-workspace.js";
 import fs from "fs/promises";
 
 const workspace = await useWorkspace();

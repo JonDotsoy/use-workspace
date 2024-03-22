@@ -1,6 +1,6 @@
 import { test, expect } from "bun:test";
-import fs from "fs/promises";
-import { useWorkspace } from "./use-workspace";
+import * as fs from "fs/promises";
+import { useWorkspace } from "./use-workspace.js";
 
 test("", async () => {
   await fs.rm(new URL("./__scripts__/test_1/workspaces/", import.meta.url), {

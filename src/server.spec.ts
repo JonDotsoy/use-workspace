@@ -1,7 +1,7 @@
 import { test, expect } from "bun:test";
-import { useWorkspace } from "./use-workspace";
-import { useServer } from "./server";
-import { useSample1 } from "./__examples__/samples";
+import { useWorkspace } from "./use-workspace.js";
+import { useServer } from "./server.js";
+import { useSample1 } from "./__examples__/samples.js";
 
 test.only("", async () => {
   const workspace = await useSample1();
