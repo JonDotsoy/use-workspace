@@ -1,22 +1,61 @@
 {
   "name": "use-workspace",
   "version": "0.1.5",
-  "module": "index.ts",
-  "type": "module",
   "license": "MIT",
   "scripts": {
+    "prepack": "make build",
     "build": "make build",
     "fmt": "make fmt"
   },
+  "files": [
+    "./lib/types/",
+    "./lib/esm/",
+    "./lib/cjs/",
+    "./src/"
+  ],
+  "types": "./index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./lib/types/*"
+      ]
+    }
+  },
   "exports": {
     ".": {
-      "default": "./dist/esm/use-workspace.js"
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/cjs/index.js"
+    },
+    "./bun": {
+      "types": "./lib/types/bun.d.ts",
+      "import": "./lib/esm/bun.js",
+      "default": "./lib/cjs/bun.js"
     },
     "./git": {
-      "default": "./dist/esm/git.js"
+      "types": "./lib/types/git.d.ts",
+      "import": "./lib/esm/git.js",
+      "default": "./lib/cjs/git.js"
+    },
+    "./index": {
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/esm/index.js",
+      "default": "./lib/cjs/index.js"
     },
     "./server": {
-      "default": "./dist/esm/server.js"
+      "types": "./lib/types/server.d.ts",
+      "import": "./lib/esm/server.js",
+      "default": "./lib/cjs/server.js"
+    },
+    "./use-npm-pack": {
+      "types": "./lib/types/use-npm-pack.d.ts",
+      "import": "./lib/esm/use-npm-pack.js",
+      "default": "./lib/cjs/use-npm-pack.js"
+    },
+    "./use-workspace": {
+      "types": "./lib/types/use-workspace.d.ts",
+      "import": "./lib/esm/use-workspace.js",
+      "default": "./lib/cjs/use-workspace.js"
     }
   },
   "devDependencies": {
@@ -28,7 +67,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "streamable-tools": "latest"
+    "streamable-tools": "^0.1.6"
   },
   "repository": {
     "type": "git",

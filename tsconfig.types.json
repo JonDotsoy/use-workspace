@@ -5,7 +5,8 @@
     "declaration": true,
     "allowImportingTsExtensions": false,
     "sourceRoot": "./src/",
-    "inlineSourceMap": true
+    "inlineSourceMap": true,
+    "emitDeclarationOnly": true
   },
   "exclude": [
     "./lib",

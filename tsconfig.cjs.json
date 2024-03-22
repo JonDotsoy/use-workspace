@@ -4,7 +4,11 @@
     "noEmit": false,
     "declaration": true,
     "allowImportingTsExtensions": false,
-    "sourceRoot": "./src/",
+    "moduleResolution": "Node",
+    "verbatimModuleSyntax": false,
+    "target": "ES2016",
+    "module": "CommonJS",
+    "sourceRoot": "./src/`",
     "inlineSourceMap": true
   },
   "exclude": [

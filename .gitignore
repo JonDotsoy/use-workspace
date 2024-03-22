@@ -3,6 +3,7 @@ src/**/*.d.ts
 src/**/*.js
 !Makefile
 !.npmignore
+lib/
 
 # Based on https://raw.githubusercontent.com/github/gitignore/main/Node.gitignore
 
