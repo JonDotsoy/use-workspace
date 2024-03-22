@@ -1,12 +1,13 @@
 import * as fs from "fs/promises";
 
+type StringListLike = AsyncIterable<StringLike> | Iterable<StringLike>
 type StringLike = string | { toString: () => string };
 
 const listFilesRecursive = async function* (
-  paths: StringLike[],
+  paths: StringListLike,
   base: StringLike,
 ): AsyncIterable<StringLike> {
-  for (const path of paths) {
+  for await (const path of paths) {
     const url = new URL(path, new URL(base));
     const exists = await fs.exists(url);
     if (!exists) continue;
@@ -43,7 +44,7 @@ const aggregateShasum = async (items: StringLike[]) => {
   );
 };
 
-export const digestFiles = async (files: StringLike[], base: StringLike) => {
+export const digestFiles = async (files: StringListLike, base: StringLike) => {
   const paths = [
     ...new Set(
       await Array.fromAsync(listFilesRecursive(files, base), (e) => `${e}`),
